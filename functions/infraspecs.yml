@@ -1,0 +1,13 @@
+provider:
+  name: faas
+  gateway: http://$OPENFAAS_URL
+functions:
+  infraspecs:
+    lang: go
+    handler: ./infraspecs
+    image: automium/infraspecs:latest
+    environment:
+      read_timeout: 20s
+      write_timeout: 20s
+    secrets:
+      - secret-git-key

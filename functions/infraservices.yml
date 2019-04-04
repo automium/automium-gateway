@@ -1,0 +1,10 @@
+provider:
+  name: faas
+  gateway: http://$OPENFAAS_URL
+functions:
+  infraservices:
+    lang: go
+    handler: ./infraservices
+    image: automium/infraservices:latest
+    secrets:
+      - secret-kube-key

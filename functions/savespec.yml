@@ -1,0 +1,12 @@
+provider:
+  name: faas
+  gateway: http://$OPENFAAS_URL
+functions:
+  savespec:
+    lang: go
+    handler: ./savespec
+    image: automium/savespec:latest
+    environment:
+      SSH_KNOWN_HOSTS: /home/app/known_hosts
+    secrets:
+      - secret-git-key

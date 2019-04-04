@@ -1,0 +1,10 @@
+provider:
+  name: faas
+  gateway: http://$OPENFAAS_URL
+functions:
+  deletespec:
+    lang: go
+    handler: ./deletespec
+    image: automium/deletespec:latest
+    secrets:
+      - secret-git-key

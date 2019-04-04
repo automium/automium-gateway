@@ -1,0 +1,10 @@
+provider:
+  name: faas
+  gateway: http://$OPENFAAS_URL
+functions:
+  applyservice:
+    lang: go
+    handler: ./applyservice
+    image: automium/applyservice:latest
+    secrets:
+      - secret-kube-key
