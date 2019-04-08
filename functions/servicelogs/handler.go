@@ -2,6 +2,7 @@ package function
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -75,7 +76,7 @@ func Handle(req []byte) string {
 		}
 	}
 	if pod == nil {
-		return "Service logs not found"
+		return fmt.Sprint("{ \"logs\": \"Service logs not found\"}")
 	}
 
 	podLogOpts := corev1.PodLogOptions{}
@@ -91,7 +92,12 @@ func Handle(req []byte) string {
 	if err != nil {
 		log.Fatalf("[ERROR] Cannot read service logs %s", err.Error())
 	}
-	return string(out)
+
+	bytes, err := json.Marshal(string(out))
+	if err != nil {
+		log.Fatalf("[ERROR] Cannot convert logs to json format %s", err.Error())
+	}
+	return fmt.Sprintf("{ \"logs\": %s}", string(bytes))
 }
 
 func validateInput(input string) error {
