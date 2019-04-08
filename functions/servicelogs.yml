@@ -1,0 +1,10 @@
+provider:
+  name: faas
+  gateway: http://$OPENFAAS_URL
+functions:
+  servicelogs:
+    lang: go
+    handler: ./servicelogs
+    image: automium/servicelogs:latest
+    secrets:
+      - secret-kube-key
