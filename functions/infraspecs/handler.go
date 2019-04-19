@@ -21,6 +21,11 @@ func init() {
 	raven.SetDSN("https://9975f03f6b28410d821116a322c8b678:12b01191ebe14165ae65244a268a0eae@stacktracer.enter.it/3")
 }
 
+//TODO: move to the shared types lib
+type GitSecret struct {
+	GitConfig types.GitConfig `json:"git"`
+}
+
 func getAPISecret(secretName string) (secretBytes []byte, err error) {
 	root := "/var/openfaas/secrets/"
 
@@ -45,9 +50,10 @@ func Handle(req []byte) string {
 		log.Fatal(err)
 	}
 
-	var inputData types.GitConfig
-	err = json.Unmarshal(secretBytes, &inputData)
+	var gitSecret GitSecret
+	err = json.Unmarshal(secretBytes, &gitSecret)
 
+	var inputData = gitSecret.GitConfig
 	err = validateData(inputData)
 	if err != nil {
 		raven.CaptureErrorAndWait(err, nil)

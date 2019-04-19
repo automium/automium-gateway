@@ -8,5 +8,7 @@ functions:
     image: automium/savespec:latest
     environment:
       SSH_KNOWN_HOSTS: /home/app/known_hosts
+      read_timeout: 20s
+      write_timeout: 20s
     secrets:
       - secret-git-key

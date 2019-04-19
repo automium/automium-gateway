@@ -6,5 +6,8 @@ functions:
     lang: go
     handler: ./deletespec
     image: automium/deletespec:latest
+    environment:
+      read_timeout: 20s
+      write_timeout: 20s
     secrets:
       - secret-git-key

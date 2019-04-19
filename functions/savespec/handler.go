@@ -26,6 +26,11 @@ func getAPISecret(secretName string) (secretBytes []byte, err error) {
 	return secretBytes, err
 }
 
+//TODO: move to the shared types lib
+type GitSecret struct {
+	GitConfig types.GitConfig `json:"git"`
+}
+
 // Handle a serverless request
 func Handle(req []byte) string {
 
@@ -40,15 +45,15 @@ func Handle(req []byte) string {
 		log.Fatal(err)
 	}
 
-	var gitConfig types.GitConfig
-	err = json.Unmarshal(secretBytes, &gitConfig)
+	var gitSecret GitSecret
+	err = json.Unmarshal(secretBytes, &gitSecret)
 
 	var inputData types.SaveSpec
 	err = json.Unmarshal(req, &inputData)
 	if err != nil {
 		log.Fatalf("[ERROR] Cannot parse incoming data: %s", err.Error())
 	}
-	inputData.GitConfig = gitConfig
+	inputData.GitConfig = gitSecret.GitConfig
 
 	err = validateData(inputData)
 	if err != nil {

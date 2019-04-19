@@ -70,3 +70,14 @@ or in a single command:
 In the **functions** folder, run:
 
 `faas-cli invoke infraspecs`
+
+### Debug a function
+
+Add to the "*.yml" file:
+
+```
+environment:
+    ...
+    write_debug: true
+    read_debug: true
+```
